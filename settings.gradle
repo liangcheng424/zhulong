@@ -1,0 +1,2 @@
+include ':app', ':frame', ':data'
+rootProject.name='My Application'
