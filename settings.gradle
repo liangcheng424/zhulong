@@ -1,2 +1,3 @@
+include ':utils1'
 include ':app', ':frame', ':data'
 rootProject.name='My Application'

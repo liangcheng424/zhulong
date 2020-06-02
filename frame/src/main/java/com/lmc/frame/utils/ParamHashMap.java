@@ -20,4 +20,5 @@ public class ParamHashMap extends HashMap<String,Object> {
         this.put(key,value);
         return this;
     }
+
 }

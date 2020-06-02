@@ -8,13 +8,13 @@ public interface ICommonView<D> {
      * @param loadType     类型的回调 （正常加载 ，刷新 ，加载更多）
      * @param pD       一般是实体类的对象，但为了框架的灵活性，确保其他一些数据的偶发性回调，故没将长度写死
      */
-    void onSuccess(int whichApi,int loadType,D... pD);
+    void onSuccess(int whichApi,D... pD);
 
 
     /**
      * 失败的回调
-     * @param whichApi
-     * @param pThrowable
+     * @param whichApi       哪个接口失败了
+     * @param pThrowable      失败的具体描述
      */
     void onFailed(int whichApi,Throwable pThrowable);
 }
