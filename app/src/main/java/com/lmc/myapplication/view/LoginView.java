@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 
 import com.lmc.myapplication.R;
 
-public class LoginView extends RelativeLayout {、
+public class LoginView extends RelativeLayout {
     //登录布局s
     Context mContext;
     public LoginView(Context context, AttributeSet attrs) {
