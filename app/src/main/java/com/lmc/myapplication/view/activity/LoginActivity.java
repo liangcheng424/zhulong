@@ -81,7 +81,7 @@ public class LoginActivity extends BaseMvpActivity<AccountModel> implements Logi
         startActivity(new Intent(this,HomeActivity.class));
         this.finish();
     }
-    private long time = 60l;
+    private long time = 60l;//l  代表long
     private void goTime() {
        subscribe = Observable.interval(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
