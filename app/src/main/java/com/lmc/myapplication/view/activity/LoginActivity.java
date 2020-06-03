@@ -56,12 +56,12 @@ public class LoginActivity extends BaseMvpActivity<AccountModel> implements Logi
     @Override
     public void netSuccess(int whichApi, Object[] pD) {
         switch (whichApi) {
-            case ApiConfig.SEND_VERIFY:
+            case ApiConfig.SEND_VERIFY: //发送验证码
                 BaseInfo<String> info = (BaseInfo<String>) pD[0];
           //      showToast(info.result);
                 goTime();
                 break;
-            case ApiConfig.VERIFY_LOGIN:
+            case ApiConfig.VERIFY_LOGIN: //验证码登录
                 BaseInfo<LoginInfo> baseInfo = (BaseInfo<LoginInfo>) pD[0];
                 LoginInfo loginInfo = baseInfo.result;
                 loginInfo.login_name = phoneNum;
