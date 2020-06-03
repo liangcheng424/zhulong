@@ -238,4 +238,7 @@
         <attr format="integer" name="zoom_duration"/>
     </declare-styleable>
 
+    <declare-styleable name="LoginView">
+        <attr format="boolean" name="isMoreType"/>
+    </declare-styleable>
 </resources>

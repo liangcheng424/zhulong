@@ -2,11 +2,13 @@ package com.lmc.myapplication.view.activity;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.lmc.data.BaseInfo;
+import com.lmc.data.LoginInfo;
 import com.lmc.data.MainAdEntity;
 import com.lmc.data.SpecialtyChooseEntity;
 import com.lmc.frame.ApiConfig;
@@ -43,6 +45,12 @@ public class SplashActivity extends BaseSplashActivity {
         Point realSize = SystemUtils.getRealSize(this);
         //specialtyId  广告id      x 宽  y 高 屏幕宽高
         mPresenter.getData(ApiConfig.ADVERT, specialtyId,realSize.x,realSize.y);
+
+        new Handler().postDelayed(()->{ if (mInfo == null)jump(); },3000);
+        LoginInfo loginInfo = SharedPrefrenceUtils.getObject(this,ConstantKey.LOGIN_INFO);
+        if (loginInfo != null && !TextUtils.isEmpty(loginInfo.getUid()))mApplication.setLoginInfo(loginInfo);
+
+
     }
 
     @Override
