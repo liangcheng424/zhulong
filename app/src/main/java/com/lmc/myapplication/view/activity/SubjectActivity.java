@@ -1,5 +1,6 @@
 package com.lmc.myapplication.view.activity;
 
+import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class SubjectActivity extends BaseMvpActivity<LaunchModel> {
     TextView titleContent;
     @BindView(R.id.recycler)
     RecyclerView recycler;
+    @BindView(R.id.more_content)
+    TextView moreContent;
     private SubjectAdapter subjectAdapter;
     private List<SpecialtyChooseEntity> mListData = new ArrayList<>();
 
@@ -48,6 +51,8 @@ public class SubjectActivity extends BaseMvpActivity<LaunchModel> {
         recycler.setLayoutManager(new LinearLayoutManager(this));
         subjectAdapter = new SubjectAdapter(mListData, this);
         recycler.setAdapter(subjectAdapter);
+        moreContent.setText("完成");
+        moreContent.setOnClickListener(v->startActivity(new Intent(SubjectActivity.this,mApplication.isLogin() ? HomeActivity.class : LoginActivity.class)));
     }
 
     @Override

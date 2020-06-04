@@ -8,6 +8,7 @@ import com.lmc.frame.ICommonModel;
 import com.lmc.frame.ICommonView;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class BaseMvpActivity<M extends ICommonModel> extends BaseActivity implements ICommonView {
 

@@ -1,4 +1,4 @@
-package com.lmc.myapplication.view;
+package com.lmc.myapplication.view.activity;
 
 import androidx.recyclerview.widget.RecyclerView;
 

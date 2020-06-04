@@ -50,7 +50,6 @@ public class SplashActivity extends BaseSplashActivity {
         LoginInfo loginInfo = SharedPrefrenceUtils.getObject(this,ConstantKey.LOGIN_INFO);
         if (loginInfo != null && !TextUtils.isEmpty(loginInfo.getUid()))mApplication.setLoginInfo(loginInfo);
 
-
     }
 
     @Override
