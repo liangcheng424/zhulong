@@ -243,6 +243,7 @@
     </declare-styleable>
 
     <declare-styleable name="BottomTabView">
+        <attr name="defaultSelect" format="integer"/>
         <attr name="tabNum" format="integer" />
         <attr name="selectedColor" format="color" />
         <attr name="unSelectedColor" format="color" />

@@ -40,7 +40,7 @@ dependencies {
     api project(path: ':utils1')
 
     //加载图片的依赖包
-    api 'com.github.bumptech.glide:glide:4.8.0'
+    api "com.github.bumptech.glide:glide:$glide"
 //下拉刷新和加载更多依赖包
     api "com.scwang.smartrefresh:SmartRefreshLayout:$smartrefresh"
 

@@ -34,6 +34,7 @@ public class SplashActivity extends BaseSplashActivity {
     private BaseInfo<MainAdEntity> mInfo;
     private Disposable subscribe;
     private SpecialtyChooseEntity.DataBean selectedInfo;
+
     @Override
     public void setUpData() {
         selectedInfo = SharedPrefrenceUtils.getObject(this, ConstantKey.SUBJECT_SELECT);
@@ -79,7 +80,7 @@ public class SplashActivity extends BaseSplashActivity {
         subscribe = Observable.interval(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    if (preTime - aLong > 0) timeView.setText("跳过" + (preTime - aLong) + "s");
+                    if (preTime - aLong > 0) timeView.setText("跳过 " + (preTime - aLong) + "s");
                     else jump();
                 });
     }

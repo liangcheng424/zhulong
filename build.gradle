@@ -39,5 +39,7 @@ ext{
     okhttp3 = '3.9.1'
     ok3log = okhttp3
     butterknife = '10.2.0'
-
+    glide = '4.8.0'
+    gson='2.2.4'
+    eventbus='3.1.1'
 }

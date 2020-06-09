@@ -9,16 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.ColorInt;
+import androidx.annotation.IdRes;
 
 import com.lmc.myapplication.R;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,7 +38,7 @@ public class BottomTabView extends RelativeLayout {
     private List<Integer> normalIcon;//未选中的icon
     private List<Integer> selectedIcon;//选中的icon
     private List<String> tabContent;//tab对应的内容
-    private int defaultTab = 1;//默认显示第几个tab
+    private int defaultTab;//默认显示第几个tab
     private @ColorInt
     int mSelectedColor;
     private @ColorInt
@@ -56,6 +53,7 @@ public class BottomTabView extends RelativeLayout {
         mTabNum = ta.getInt(R.styleable.BottomTabView_tabNum, 4);
         mSelectedColor = ta.getColor(R.styleable.BottomTabView_selectedColor, Color.RED);
         mUnSelectedColor = ta.getColor(R.styleable.BottomTabView_unSelectedColor, Color.BLACK);
+        defaultTab = ta.getInt(R.styleable.BottomTabView_defaultSelect, 1);
         Collections.addAll(usedTabView,mainPageTab,courseTab,vipTab,dataTab,mineTab);
         if(mTabNum < 5){
             for (int i = 5; i >mTabNum ; i--) {
@@ -63,6 +61,7 @@ public class BottomTabView extends RelativeLayout {
                 usedTabView.remove(i-1);
             }
         }
+        ta.recycle();
     }
 
     /**
@@ -70,11 +69,10 @@ public class BottomTabView extends RelativeLayout {
      * @param normalIcon  未选中的icon集合
      * @param selectedIcon  选中的icon集合
      * @param tabContent  tab内容
-     * @param pDefaultTab  默认选中哪个tab
      */
-    public void setResource(List<Integer> normalIcon,List<Integer> selectedIcon,List<String> tabContent,int pDefaultTab){
+    public void setResource(List<Integer> normalIcon,List<Integer> selectedIcon,List<String> tabContent){
         //tab数量不能为0，没有意义
-        if(pDefaultTab<=0){
+        if(defaultTab<=0){
             Log.e(this.getClass().getSimpleName(), "tab不能为0个");
         }
 
@@ -86,7 +84,6 @@ public class BottomTabView extends RelativeLayout {
         this.normalIcon = normalIcon;
         this.selectedIcon = selectedIcon;
         this.tabContent = tabContent;
-        defaultTab = pDefaultTab;
         setContent();
         setStyle();
     }
@@ -110,9 +107,15 @@ public class BottomTabView extends RelativeLayout {
         }
     }
 
+    private @IdRes int currentId;
     @OnClick({R.id.main_page_tab, R.id.course_tab, R.id.vip_tab, R.id.data_tab, R.id.mine_tab})
     public void onViewClicked(View view) {
             int id = view.getId();
+            if(currentId == id){
+                Log.e(this.getClass().getName(), "你点击的是已选中的位置");
+                return;
+            }
+            currentId = id;
             if(id == R.id.main_page_tab){
                 defaultTab = 1;
             }else if(id == R.id.course_tab){
@@ -125,5 +128,16 @@ public class BottomTabView extends RelativeLayout {
                 defaultTab = 5;
             }
             setStyle();
+            if(onBottomTabClickCallBack !=null)onBottomTabClickCallBack.clickTab(defaultTab);
+    }
+
+    OnBottomTabClickCallBack onBottomTabClickCallBack;
+
+    public void setOnBottomTabClickCallBack(OnBottomTabClickCallBack onBottomTabClickCallBack) {
+        this.onBottomTabClickCallBack = onBottomTabClickCallBack;
+    }
+
+    public interface OnBottomTabClickCallBack{
+        void clickTab(int tab);
     }
 }

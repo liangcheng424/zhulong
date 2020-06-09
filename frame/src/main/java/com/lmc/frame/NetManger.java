@@ -1,10 +1,6 @@
 package com.lmc.frame;
 
-import com.lmc.data.BaseInfo;
-import com.lmc.data.MainAdEntity;
-
 import java.util.concurrent.TimeUnit;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -17,6 +13,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetManger {
+    public static IService mService;
     private NetManger() {
     }
 
@@ -26,18 +23,39 @@ public class NetManger {
         if (sNetManger == null) {
             synchronized (NetManger.class) {
                 sNetManger = new NetManger();
+                mService = getService();
             }
         }
         return sNetManger;
     }
 
-    /**
+
+    public static IService getService(){
+        return new Retrofit.Builder()
+                .baseUrl(Host.AD_OPENAPI)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(initClient())
+                .build()
+                .create(IService.class);
+    }
+
+    private static OkHttpClient initClient() {
+        return new OkHttpClient().newBuilder()
+                .addInterceptor(new CommonHeadersInterceptor())
+                .addInterceptor(new CommonParamsInterceptor())
+                .addInterceptor(initLogInterceptor())
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .build();
+    }
+   /* /**
      *
      * @param t   如果传baseURL，用传过来的，没传的话用默认
      * @param <T>
      * @return
      */
-    public <T> IService getService(T... t){
+   public <T> IService getService(T... t){
         String baseUrl = ServerAddressConfig.BASE_URL;
         if(t!=null&&t.length!=0){
             baseUrl = (String) t[0];
@@ -52,7 +70,7 @@ public class NetManger {
                 .create(IService.class);
     }
 
-    private OkHttpClient initClient() {
+  /*  private OkHttpClient initClient() {
         return new OkHttpClient().newBuilder()
                 .addInterceptor(new CommonHeadersInterceptor())
                 .addInterceptor(new CommonParamsInterceptor())
@@ -60,9 +78,9 @@ public class NetManger {
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
                 .build();
-    }
+    }  */
 
-    private Interceptor initLogInterceptor() {
+    private static Interceptor initLogInterceptor() {
         HttpLoggingInterceptor log = new HttpLoggingInterceptor();
         log.setLevel(HttpLoggingInterceptor.Level.BODY);
         return log;

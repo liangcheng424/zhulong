@@ -4,12 +4,14 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.lmc.frame.ApiConfig;
+import com.lmc.frame.Host;
 import com.lmc.frame.ICommonModel;
 import com.lmc.frame.ICommonPresenter;
 import com.lmc.frame.NetManger;
 import com.lmc.frame.utils.ParamHashMap;
 import com.lmc.myapplication.R;
 import com.lmc.myapplication.base.Application1907;
+import com.lmc.myapplication.constants.Method;
 
 public class LaunchModel implements ICommonModel {
     NetManger manger = NetManger.getInstance();
@@ -24,10 +26,10 @@ public class LaunchModel implements ICommonModel {
                         .add("positions_id", "APP_QD_01")
                         .add("is_show", 0);
                 if(!TextUtils.isEmpty((String) params[0]))map.add("specialty_id",params[0]);
-                manger.netWork(manger.getService(context.getString(R.string.ad_openapi)).getAdvert(map),presenter,whichApi);
+                manger.netWork(NetManger.mService.getAdvert(Host.AD_OPENAPI+Method.ADVERT_PATH,map), presenter, whichApi);
                 break;
                 case ApiConfig.SUBJECT:
-                    manger.netWork(manger.getService(context.getString(R.string.edu_openapi)).getSubjectList(), presenter, whichApi);
+                    manger.netWork(NetManger.mService.getSubjectList(Host.EDU_OPENAPI+Method.GETALLSPECIALTY), presenter, whichApi);
                     break;
         }
     }

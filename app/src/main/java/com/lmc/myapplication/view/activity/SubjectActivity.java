@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lmc.data.BaseInfo;
+import com.lmc.data.InfoEvent;
 import com.lmc.data.SpecialtyChooseEntity;
 import com.lmc.frame.ApiConfig;
 import com.lmc.frame.constants.ConstantKey;
@@ -16,6 +17,8 @@ import com.lmc.myapplication.adapter.SubjectAdapter;
 import com.lmc.myapplication.base.BaseMvpActivity;
 import com.lmc.myapplication.model.LaunchModel;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +84,7 @@ public class SubjectActivity extends BaseMvpActivity<LaunchModel> {
     protected void onStop() {
         super.onStop();
         SharedPrefrenceUtils.putObject(this, ConstantKey.SUBJECT_SELECT, mApplication.getSelectedInfo());
+        EventBus.getDefault().post(new InfoEvent());
     }
 
     @OnClick(R.id.back_image)
