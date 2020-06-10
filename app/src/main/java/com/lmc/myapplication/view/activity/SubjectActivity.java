@@ -1,6 +1,7 @@
 package com.lmc.myapplication.view.activity;
 
 import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +27,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.lmc.myapplication.constants.JumpConstant.JUMP_KEY;
+import static com.lmc.myapplication.constants.JumpConstant.SPLASH_TO_SUB;
+
 public class SubjectActivity extends BaseMvpActivity<LaunchModel> {
 
     @BindView(R.id.back_image)
@@ -38,6 +42,7 @@ public class SubjectActivity extends BaseMvpActivity<LaunchModel> {
     TextView moreContent;
     private SubjectAdapter subjectAdapter;
     private List<SpecialtyChooseEntity> mListData = new ArrayList<>();
+    private String mFrom;
 
     @Override
     public void setUpData() {
@@ -50,12 +55,26 @@ public class SubjectActivity extends BaseMvpActivity<LaunchModel> {
 
     @Override
     public void setUpView() {
+        mFrom = getIntent().getStringExtra(JUMP_KEY);
         titleContent.setText(getString(R.string.select_subject));
         recycler.setLayoutManager(new LinearLayoutManager(this));
         subjectAdapter = new SubjectAdapter(mListData, this);
         recycler.setAdapter(subjectAdapter);
         moreContent.setText("完成");
-        moreContent.setOnClickListener(v->startActivity(new Intent(SubjectActivity.this,mApplication.isLogin() ? HomeActivity.class : LoginActivity.class)));
+        moreContent.setOnClickListener(v-> {
+            if (mApplication.getSelectedInfo() == null) {
+                showToast("请选择专业");
+                return;
+            }
+            if (mFrom.equals(SPLASH_TO_SUB)) {
+                if (mApplication.isLogin()) {
+                    startActivity(new Intent(SubjectActivity.this, HomeActivity.class));
+                } else {
+                    startActivity(new Intent(SubjectActivity.this, LoginActivity.class));
+                }
+            }
+            finish();
+        });
     }
 
     @Override

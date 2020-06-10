@@ -2,9 +2,12 @@ package com.lmc.frame;
 
 import com.google.gson.JsonObject;
 import com.lmc.data.BaseInfo;
+import com.lmc.data.CourseListInfo;
+import com.lmc.data.DataGroupListEntity;
 import com.lmc.data.LoginInfo;
 import com.lmc.data.MainAdEntity;
 import com.lmc.data.PersonHeader;
+import com.lmc.data.RecentlyBestEntity;
 import com.lmc.data.SpecialtyChooseEntity;
 import com.lmc.data.TestInfo;
 import com.lmc.data.course.CourseBean;
@@ -45,7 +48,7 @@ public interface IService {
 
     @POST
     @FormUrlEncoded
-    Observable<BaseInfo<PersonHeader>> getHeaderInfo(@FieldMap Map<String,Object> params);
+    Observable<BaseInfo<PersonHeader>> getHeaderInfo(@Url String url,@FieldMap Map<String,Object> params);
 
     @GET
     Observable<BaseInfo<List<IndexCommondEntity>>> getMainPageList(@Url String url, @QueryMap Map<String,Object> params);
@@ -53,6 +56,22 @@ public interface IService {
     @GET
     Observable<JsonObject> getBannerLive(@Url String url, @QueryMap Map<String,Object> params);
 
+    @GET
+    Observable<BaseInfo<CourseListInfo>> getCourseChildData(@Url String url, @QueryMap Map<String,Object> params);
+
+    @GET
+    Observable<BaseInfo<List<DataGroupListEntity>>> getGroupList(@Url String url, @QueryMap Map<String,Object> params);
+
+    @GET
+    Observable<BaseInfo<List<RecentlyBestEntity>>> getRecentlyBestList(@Url String url, @QueryMap Map<String,Object> params);
+
+    @POST
+    @FormUrlEncoded
+    Observable<BaseInfo> removeFocus(@Url String url, @FieldMap Map<String,Object> params);
+
+    @POST
+    @FormUrlEncoded
+    Observable<BaseInfo> focus(@Url String url, @FieldMap Map<String,Object> params);
     String url = "https://edu.zhulong.com/openapi/lesson/";
     @GET("getCarouselphoto?pro=21&more_live=1&is_new=1&new_banner=1&uid=15063681&time=1591367557&devices=oppoR11&system=android,5.1.1&version=2.1.4&unique_id=355757265852349&client_id=205")
     Observable<BannerLiveInfo> getBanner();

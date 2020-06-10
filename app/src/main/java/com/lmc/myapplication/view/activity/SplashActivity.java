@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
-
 import com.lmc.data.BaseInfo;
 import com.lmc.data.LoginInfo;
 import com.lmc.data.MainAdEntity;
@@ -20,14 +19,13 @@ import com.lmc.myapplication.base.BaseSplashActivity;
 import com.lmc.myapplication.model.LaunchModel;
 import com.yiyatech.utils.GlideUtil;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
-
 import java.util.concurrent.TimeUnit;
-
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import static com.lmc.myapplication.constants.JumpConstant.*;
 
 public class SplashActivity extends BaseSplashActivity {
 
@@ -85,10 +83,16 @@ public class SplashActivity extends BaseSplashActivity {
                 });
     }
     private void jump() {
-        subscribe.dispose();
-        startActivity(new Intent(this,selectedInfo!=null
-                &&!TextUtils.isEmpty(selectedInfo.getSpecialty_id())
-                ?mApplication.isLogin()?HomeActivity.class:LoginActivity.class :SubjectActivity.class));
+        if(subscribe!=null)subscribe.dispose();
+        if(selectedInfo!=null &&!TextUtils.isEmpty(selectedInfo.getSpecialty_id())){
+            if(mApplication.isLogin()){
+                startActivity(new Intent(this,HomeActivity.class));
+            }else{
+                startActivity(new Intent(this,LoginActivity.class).putExtra(JUMP_KEY, SPLASH_TO_LOGIN));
+            }
+        }else{
+            startActivity(new Intent(this,SubjectActivity.class).putExtra(JUMP_KEY, SPLASH_TO_SUB));
+        }
         finish();
     }
 

@@ -4,12 +4,14 @@ import android.content.Context;
 
 import com.lmc.frame.ApiConfig;
 import com.lmc.frame.FrameApplication;
+import com.lmc.frame.Host;
 import com.lmc.frame.ICommonModel;
 import com.lmc.frame.ICommonPresenter;
 import com.lmc.frame.NetManger;
 import com.lmc.frame.utils.ParamHashMap;
 import com.lmc.myapplication.R;
 import com.lmc.myapplication.base.Application1907;
+import com.lmc.myapplication.constants.Method;
 
 public class AccountModel implements ICommonModel {
     private NetManger manger = NetManger.getInstance();
@@ -31,7 +33,8 @@ public class AccountModel implements ICommonModel {
                 ParamHashMap map1 = new ParamHashMap();
                 map1.add("zuid", uid);
                 map1.add("uid",uid);
-                manger.netWork(manger.getService(mContext.getString(R.string.passport_api)).getHeaderInfo(map1), presenter,whichApi);
+                manger.netWork(NetManger.mService.getHeaderInfo(Host.PASSPORT_API+ Method.GETUSERHEADERFORMOBILE,
+                        new ParamHashMap().add("zuid",uid).add("uid",uid)),presenter,whichApi);
                 break;
         }
     }

@@ -10,10 +10,10 @@ public class ApiConfig {
     public static final int MAIN_PAGE_BANNER = 7;
     public static final int MAIN_PAGE_LIST = 8;
     public static final int COURSE_TYPE = 9;
-    public static final int COURSE_SMART = 10;
-    public static final int COURSE_PUBLIC = 11;
-    public static final int VIP_BANNER = 12;
-    public static final int VIP_LIST = 13;
-    public static final int DATA_GROUP = 14;
-    public static final int DATA_SMART = 15;
+    public static final int VIP_BANNER = 10;
+    public static final int VIP_LIST = 11;
+    public static final int DATA_GROUP = 12;
+    public static final int DATA_SMART = 13;
+    public static final int CLICK_CANCEL_FOCUS = 14;
+    public static final int CLICK_TO_FOCUS = 15;
 }

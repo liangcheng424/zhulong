@@ -99,8 +99,8 @@ public class NetManger {
 
                     @Override
                     protected void onSuccess(Object value) {
-
-                        pPresenter.onSuccess(whichApi, value,o);
+                        pPresenter.onSuccess(whichApi, value, o != null && o.length == 1 ? o[0] : o);
+                    //    pPresenter.onSuccess(whichApi, value,o);
                     }
 
                     @Override

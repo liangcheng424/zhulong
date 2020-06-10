@@ -1,9 +1,8 @@
 package com.lmc.myapplication.view.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-
 import com.lmc.data.BaseInfo;
 import com.lmc.data.LoginInfo;
 import com.lmc.data.PersonHeader;
@@ -14,17 +13,14 @@ import com.lmc.myapplication.base.BaseMvpActivity;
 import com.lmc.myapplication.model.AccountModel;
 import com.lmc.myapplication.view.LoginView;
 import com.yiyatech.utils.newAdd.SharedPrefrenceUtils;
-
 import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import static com.lmc.myapplication.constants.JumpConstant.*;
 
 public class LoginActivity extends BaseMvpActivity<AccountModel> implements LoginView.LoginViewCallBack {
 
@@ -32,6 +28,7 @@ public class LoginActivity extends BaseMvpActivity<AccountModel> implements Logi
     LoginView loginView;
     private String phoneNum;
     private Disposable subscribe;
+    private String mFrom;
 
     @Override
     public void setUpData() {
@@ -40,6 +37,7 @@ public class LoginActivity extends BaseMvpActivity<AccountModel> implements Logi
 
     @Override
     public void setUpView() {
+        mFrom = getIntent().getStringExtra(JUMP_KEY);
         loginView.setLoginViewCallBack(this);
     }
 
@@ -59,7 +57,11 @@ public class LoginActivity extends BaseMvpActivity<AccountModel> implements Logi
             case ApiConfig.SEND_VERIFY: //发送验证码
                 BaseInfo<String> info = (BaseInfo<String>) pD[0];
           //      showToast(info.result);
-                goTime();
+                if(info.isSuccess()){
+                    goTime();
+                }else{
+                 showToast("验证码发送太频繁，请稍后重试");
+                }
                 break;
             case ApiConfig.VERIFY_LOGIN: //验证码登录
                 BaseInfo<LoginInfo> baseInfo = (BaseInfo<LoginInfo>) pD[0];
@@ -78,8 +80,10 @@ public class LoginActivity extends BaseMvpActivity<AccountModel> implements Logi
     }
 
     private void jump() {
-        startActivity(new Intent(this,HomeActivity.class));
-        this.finish();
+        if(mFrom.equals(SPLASH_TO_LOGIN) || mFrom.equals(SUB_TO_LOGIN)){
+            startActivity(new Intent(this,HomeActivity.class));
+        }
+        finish();
     }
     private long time = 60l;//l  代表long
     private void goTime() {
@@ -113,6 +117,9 @@ public class LoginActivity extends BaseMvpActivity<AccountModel> implements Logi
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.close_login:
+                if(!TextUtils.isEmpty(mFrom)&&(mFrom.equals(SUB_TO_LOGIN)||mFrom.equals(SPLASH_TO_LOGIN))){
+                    startActivity(new Intent(this,HomeActivity.class));
+                }
                 finish();
                 break;
             case R.id.register_press:
